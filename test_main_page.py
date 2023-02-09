@@ -2,6 +2,7 @@ import time
 
 from selenium.webdriver.common.by import By
 
+from pages.basket_page import BasketPage
 from pages.login_page import LoginPage
 from .pages.main_page import MainPage
 
@@ -33,3 +34,14 @@ def test_login_page(browser):
 
     login_page = LoginPage(browser, link)
     login_page.should_be_login_page()
+
+
+def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/"
+    main_page = MainPage(browser, link)
+    main_page.open()
+    main_page.click_cart_button()
+    time.sleep(5)
+    cart_page = BasketPage(browser, link)
+    cart_page.check_cart_is_empty()
+    cart_page.check_cart_is_empty_text_present()
